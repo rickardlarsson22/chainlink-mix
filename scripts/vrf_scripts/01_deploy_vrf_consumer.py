@@ -12,7 +12,8 @@ from scripts.helpful_scripts import (
 def depoly_vrf_consumer():
     account = get_account()
     print(f"On network {network.show_active()}")
-    subscription_id = config["networks"][network.show_active()]["subscription_id"]
+    subscription_id = config["networks"][network.show_active()
+                                         ]["subscription_id"]
     gas_lane = config["networks"][network.show_active()][
         "gas_lane"
     ]  # Also known as keyhash
@@ -45,7 +46,8 @@ def add_vrf_consumer_to_subscription(subscription_id, vrf_consumer):
         )
         account = get_account()
         tx = vrf_coordinator.addConsumer.transact(
-            subscription_id, vrf_consumer.address, {"from": account}
+            subscription_id, vrf_consumer.address, {
+                "from": account, "gasPrice": 1000000}
         )
         tx.wait(1)
         print("Consumer added to subscription!")
@@ -56,5 +58,6 @@ def main():
     vrf_consumer = VRFConsumerV2[-1]
     if network.show_active() not in LOCAL_BLOCKCHAIN_ENVIRONMENTS:
         add_vrf_consumer_to_subscription(
-            config["networks"][network.show_active()]["subscription_id"], vrf_consumer
+            config["networks"][network.show_active(
+            )]["subscription_id"], vrf_consumer
         )
